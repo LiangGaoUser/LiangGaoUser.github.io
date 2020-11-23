@@ -266,7 +266,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-11-23 15:18:49 / Modified: 15:24:33" itemprop="dateCreated datePublished" datetime="2020-11-23T15:18:49+08:00">2020-11-23</time>
+      <time title="Created: 2020-11-23 15:18:49 / Modified: 21:00:19" itemprop="dateCreated datePublished" datetime="2020-11-23T15:18:49+08:00">2020-11-23</time>
     </span>
 
   
@@ -293,7 +293,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>#qqqqqqqqqqqqqqqqqqqqqqqqqq</p>
+          <h1 id="将切分的实验样本词条向量化"><a href="#将切分的实验样本词条向量化" class="headerlink" title="将切分的实验样本词条向量化"></a>将切分的实验样本词条向量化</h1><p>def setOfWords2Vec(vocabList, inputSet):<br>    returnVec = [0] * len(vocabList)  # 创建一个其中所含元素都为0的向量<br>    for word in inputSet:  # 遍历每个词条<br>        if word in vocabList:  # 如果词条存在于词汇表中，则置1<br>            returnVec[vocabList.index(word)] = 1<br>        else:<br>            print(“the word: %s is not in my Vocabulary!” % word)<br>    return returnVec  # 返回文档向量</p>
+<p>4.5.3.4 词袋模型构建函数<br>函数说明：根据vocabList词汇表，通过遍历样本词条并判断其元素是否在词汇            表中存在，来构建词袋模型<br>参数：vocabList，createVocabList函数返回的词汇表<br>      inputSet，切分的词条列表<br>返回值：returnVec，文档向量，词袋模型</p>
+<h1 id="创建词袋模型"><a href="#创建词袋模型" class="headerlink" title="创建词袋模型"></a>创建词袋模型</h1><p>def bagOfWords2VecMN(vocabList, inputSet):<br>    returnVec = [0] * len(vocabList)  # 创建一个其中所含元素都为0的向量<br>    for word in inputSet:  # 遍历每个词条<br>        if word in vocabList:  # 如果词条存在于词汇表中，则计数加一<br>            returnVec[vocabList.index(word)] += 1<br>    return returnVec  # 返回词袋模型</p>
+<p>4.5.3.5 朴素贝叶斯分类器训练函数<br>函数说明：计算多个概率的乘积以获得文档属于某个类别的概率，即计算p(w0|1)p(w1|1)p(w2|1)……。<br>要注意的是，计算的时候可能会出现某个词条的概率为0的情况。如果测试文本包含概率为0的单词，则最终的文本属于某个类别的概率也为0。<br>显然，这样是不合理的，为了降低这种影响，可以将所有词的出现数初始化为1，并将分母初始化为2。这种做法称为拉普拉斯平滑，在该分类器训练函数中即使用到了拉普拉斯平滑。<br>参数：trainMatrix，训练文档矩阵，即setOfWords2Vec返回的向量构成的矩阵<br>      trainCategory，训练类别标签向量，即loadDataSet返回的classVec<br>返回值:<br>    p0Vect，正常邮件类的条件概率数组<br>    p1Vect，垃圾邮件类的条件概率数组<br>    pAbusive，文档属于垃圾邮件类的概率</p>
+<h1 id="朴素贝叶斯分类器训练函数"><a href="#朴素贝叶斯分类器训练函数" class="headerlink" title="朴素贝叶斯分类器训练函数"></a>朴素贝叶斯分类器训练函数</h1><p>def trainNB0(trainMatrix, trainCategory):<br>    numTrainDocs = len(trainMatrix)  # 计算训练的文档数目<br>    numWords = len(trainMatrix[0])  # 计算每篇文档的词条数<br>    # 文档属于垃圾邮件类的概率<br>pAbusive = sum(trainCategory) / float(numTrainDocs)<br>    p0Num = np.ones(numWords)</p>
+<h1 id="创建numpy-ones数组-词条出现数初始化为1-拉普拉斯平滑"><a href="#创建numpy-ones数组-词条出现数初始化为1-拉普拉斯平滑" class="headerlink" title="创建numpy.ones数组,词条出现数初始化为1,拉普拉斯平滑"></a>创建numpy.ones数组,词条出现数初始化为1,拉普拉斯平滑</h1><pre><code>p1Num = np.ones(numWords)</code></pre>
+<p>p0Denom = 2.0<br>    p1Denom = 2.0  # 分母初始化为2 ,拉普拉斯平滑</p>
 
       
     </div>
